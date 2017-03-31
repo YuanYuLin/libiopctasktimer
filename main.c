@@ -37,20 +37,20 @@ void* task_handler_timer(void* ptr)
 //    pthread_t thread_id;
 
 #if 1
-    GET_INSTANCE(ops_misc)->execute_cmd("/usr/local/bin/iopccmd raw 1 1 1", NULL);
-    GET_INSTANCE(ops_misc)->execute_cmd("/usr/local/bin/iopccmd raw 1 2 1", NULL);
-    GET_INSTANCE(ops_misc)->execute_cmd("/usr/local/bin/iopccmd raw 1 3 1", NULL);
-    GET_INSTANCE(ops_misc)->execute_cmd("/usr/local/bin/iopccmd raw 1 4 1", NULL);
-    GET_INSTANCE(ops_misc)->execute_cmd("/usr/local/bin/iopccmd raw 1 5 1", NULL);
-    GET_INSTANCE(ops_misc)->execute_cmd("/usr/local/bin/iopccmd raw 1 6 1", NULL);
-    GET_INSTANCE(ops_misc)->execute_cmd("/usr/local/bin/iopccmd raw 1 7 1", NULL);
+    GET_INSTANCE_MISC_OBJ()->execute_cmd("/usr/local/bin/iopccmd raw 1 1 1", NULL);
+    GET_INSTANCE_MISC_OBJ()->execute_cmd("/usr/local/bin/iopccmd raw 1 2 1", NULL);
+    GET_INSTANCE_MISC_OBJ()->execute_cmd("/usr/local/bin/iopccmd raw 1 3 1", NULL);
+    GET_INSTANCE_MISC_OBJ()->execute_cmd("/usr/local/bin/iopccmd raw 1 4 1", NULL);
+    GET_INSTANCE_MISC_OBJ()->execute_cmd("/usr/local/bin/iopccmd raw 1 5 1", NULL);
+    GET_INSTANCE_MISC_OBJ()->execute_cmd("/usr/local/bin/iopccmd raw 1 6 1", NULL);
+    GET_INSTANCE_MISC_OBJ()->execute_cmd("/usr/local/bin/iopccmd raw 1 7 1", NULL);
 #endif
 
     for(;;) {
         memset((uint8_t*)&req, 0, sizeof(struct msg_t));
         memset((uint8_t*)&res, 0, sizeof(struct msg_t));
 
-        GET_INSTANCE(ops_mq)->get_from(TASK_TIMER, &req);
+        GET_INSTANCE_MQ_OBJ()->get_from(TASK_TIMER, &req);
 
 	memcpy(&res.hdr, &req.hdr, sizeof(struct msg_hdr_t));
 	strcpy(res.hdr.src, req.hdr.dst);
@@ -98,7 +98,7 @@ void* task_handler_timer(void* ptr)
 	sleep(1);
 
 	if(strcmp(res.hdr.dst, "") != 0) {
-	    GET_INSTANCE(ops_mq)->set_to(res.hdr.dst, &res);
+	    GET_INSTANCE_MQ_OBJ()->set_to(res.hdr.dst, &res);
 	}
     }
 }
