@@ -1,0 +1,5 @@
+config BR2_PACKAGE_LIBIOPCTASKTIMER
+	bool "libiopctasktimer"
+	select BR2_PACKAGE_LIBIOPCCOMMON
+	help
+	  The timer task library of IOPC.
